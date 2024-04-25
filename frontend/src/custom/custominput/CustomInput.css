@@ -16,6 +16,7 @@
     transition: border-color ease-in-out .2s;
 }
 
+
 .formcontrol-input input.active {
     border-color: transparent;
     width: 100%;

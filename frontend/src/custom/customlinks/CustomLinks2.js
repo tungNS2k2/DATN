@@ -25,7 +25,7 @@ const GroupLink = styled.div `
     }
 
     .menu-item span {
-        margin-left: 30px
+        margin-left: 10px
     }
     
     .menu-item i {

@@ -72,7 +72,7 @@ const CustomInput = (props) => {
                     height: height ? height: 'inherit',
                     textTransform: uppercase ? 'uppercase' : 'none',
                     color: color,
-                    cursor: 'pointer',
+                    cursor: 'auto',
                     backgroundColor: backgroundColor,
                     border: border,
                     fontSize: fontSize

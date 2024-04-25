@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Body from "./body/Body";
 import Header from "./header/Header";
 import style from 'styled-components';
@@ -20,6 +21,7 @@ const HomePage = () =>{
         <HomeStyles className = "Homepage">
             <Header />
             <Body />
+            {/* <Outlet /> */}
         </HomeStyles>
     )
 }
