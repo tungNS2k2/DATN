@@ -26,7 +26,7 @@ public class AccountService implements IAccountService {
 	@Override
 	public Accounts getAccountByUsername(String username) {
 		
-		return accountReponsitory.findByUsername(username);
+		return accountReponsitory.findByUsername(username).get();
 	}
 
 	@Override
