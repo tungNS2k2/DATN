@@ -28,7 +28,7 @@ public class Accounts implements Serializable{
 	private int id;
 	
 	@Column(name = "user_name", length = 50, nullable = false)
-	private String userName;
+	private String username;
 	
 	@Column(name ="password", length = 800, nullable = false)
 	private String password;
