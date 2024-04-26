@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDelete;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,9 +30,16 @@ public class Accounts implements Serializable{
 	@Column(name = "user_name", length = 50, nullable = false)
 	private String userName;
 	
+	@Column(name ="password", length = 800, nullable = false)
+	private String password;
+	
+	@Column(name = "avatar_url", length = 250, nullable = true)
+	private String avatarUrl;
+	
 	@Column(name = "email", length = 150, nullable = false)
 	private String email;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "role", columnDefinition = "ENUM('ADMIN', 'USER')")
 	private AccountRole role;
 	
@@ -50,4 +59,5 @@ public class Accounts implements Serializable{
 			return null;
 		}
 	}
+
 }
