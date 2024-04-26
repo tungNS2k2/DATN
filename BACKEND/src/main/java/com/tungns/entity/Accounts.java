@@ -43,6 +43,10 @@ public class Accounts implements Serializable{
 	@Column(name = "role", columnDefinition = "ENUM('ADMIN', 'USER')")
 	private AccountRole role;
 	
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.ORDINAL)
+	private AccountStatus status;
+	
 	@OneToMany(mappedBy = "account")
 	private List<GeneratedImages> generatedImages;
 	
@@ -58,6 +62,9 @@ public class Accounts implements Serializable{
 			}
 			return null;
 		}
+	}
+	public enum AccountStatus {
+		NOT_ACTIVE, ACTIVE;
 	}
 
 }

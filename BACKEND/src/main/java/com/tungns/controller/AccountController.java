@@ -27,7 +27,7 @@ public class AccountController {
 	@Autowired
 	private ModelMapper model;
 	
-	@GetMapping(name ="/")
+	@GetMapping()
 	public List<AccountDTO> getAllAccounts(){
 		List<Accounts> account = service.getAllAccounts();
 		
@@ -35,7 +35,7 @@ public class AccountController {
 		return acDTO;
 	}
 	
-	@GetMapping("/username")
+	@GetMapping("/getByUsername/{username}")
 	public AccountDTO getAccountByUser(@PathVariable(name = "username") String username) {
 		Accounts ac = service.getAccountByUsername(username);
 		
@@ -46,7 +46,7 @@ public class AccountController {
 		
 	}
 	
-	@GetMapping("/id")
+	@GetMapping("/getByID/{id}")
 	public AccountDTO getAccountByID(@PathVariable(name ="id") int id) {
 		Accounts acc = service.getAccountByID(id);
 		System.out.println(acc);
