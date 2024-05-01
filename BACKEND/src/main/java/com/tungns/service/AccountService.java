@@ -55,17 +55,10 @@ public class AccountService implements IAccountService {
 
 	@Override
 	@Transactional
-	public void updateAccount(int id, UpdateAccountForm form) {
-		Accounts accForm = model.map(form, Accounts.class);
+	public void updateAccount(int id, AccountDTO accDTO) {
+		Accounts acc = model.map(accDTO, Accounts.class);
 		
-		Accounts accEntity = accountReponsitory.findById(id).get();
-		
-		accEntity.setEmail(accForm.getEmail());
-		accEntity.setAvatarUrl(accForm.getAvatarUrl());
-		
-		accountReponsitory.save(accEntity);
-		
-		
+		accountReponsitory.save(acc);
 		
 	}
 	

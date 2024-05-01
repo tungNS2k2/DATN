@@ -14,7 +14,5 @@ public interface IAccountReponsitory extends JpaRepository<Accounts, Integer>, J
 
 	public Accounts findByEmail(String email);
 	
-	
-	
 }
  

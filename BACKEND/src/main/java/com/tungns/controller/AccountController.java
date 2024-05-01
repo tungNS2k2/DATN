@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,11 +86,16 @@ public class AccountController {
 
 	
 	@PutMapping(value = "/id")
-	public ResponseEntity<?> updateByID(@RequestBody @Valid UpdateAccountForm UAForm, @PathVariable(name = "id") int id) {
-		service.updateAccount(id, UAForm);
+	public ResponseEntity<?> updateByID(@RequestBody @Valid AccountDTO accDTO, @PathVariable(name = "id") int id) {
+		service.updateAccount(id, accDTO);
 		return new ResponseEntity<>("Update successfully", HttpStatus.OK);
 	}
 	
+	
+	@PostMapping()
+	public void createAccount() {
+		
+	}
 	
 	
 		
