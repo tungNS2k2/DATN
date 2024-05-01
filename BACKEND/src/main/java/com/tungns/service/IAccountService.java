@@ -12,7 +12,6 @@ import com.tungns.form.Account.UpdateAccountForm;
 
 public interface IAccountService {
 
-	public List<Accounts> getAllAccounts();
 
 	public Accounts getAccountByUsername(String username);
 
@@ -20,7 +19,7 @@ public interface IAccountService {
 
 	public Accounts getAccountByEmail(String email);
 
-	public Page<Accounts> getPagingAccounts(Pageable pageable, String search, AccountFilterForm accFF);
+	Page<Accounts> getAll(Pageable pageable, String search, AccountFilterForm form);
 
 	public void updateAccount(int id, UpdateAccountForm form);
 	

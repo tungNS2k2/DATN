@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.tungns.entity.Accounts;
 import com.tungns.filter.AccountFilterForm;
 import com.tungns.form.Account.UpdateAccountForm;
 import com.tungns.responsitory.IAccountReponsitory;
+import com.tungns.specification.AccountSpecifications;
 
 import jakarta.transaction.Transactional;
 
@@ -26,12 +28,6 @@ public class AccountService implements IAccountService {
 	
 	@Autowired
 	private ModelMapper model;
-
-	@Override
-	public List<Accounts> getAllAccounts() {
-		// TODO Auto-generated method stub
-		return accountReponsitory.findAll();
-	}
 
 	@Override
 	public Accounts getAccountByUsername(String username) {
@@ -52,9 +48,9 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public Page<Accounts> getPagingAccounts(Pageable pageable, String search, AccountFilterForm accFF) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Accounts> getAll(Pageable pageable, String search, AccountFilterForm acFF) {
+		Specification<Accounts> where = AccountSpecifications.buildWhere(search, acFF);
+		return accountReponsitory.findAll(where, pageable);
 	}
 
 	@Override

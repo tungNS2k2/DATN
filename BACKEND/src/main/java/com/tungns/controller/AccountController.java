@@ -24,6 +24,9 @@ import com.tungns.dto.AccountDTO;
 import com.tungns.entity.Accounts;
 import com.tungns.filter.AccountFilterForm;
 import com.tungns.service.IAccountService;
+
+import jakarta.validation.Valid;
+
 import com.tungns.form.Account.UpdateAccountForm;
 
 @RestController
@@ -37,11 +40,16 @@ public class AccountController {
 	private ModelMapper model;
 	
 	@GetMapping()
-	public List<AccountDTO> getAllAccounts(){
-		List<Accounts> account = service.getAllAccounts();
+	public Page<AccountDTO> getAll(Pageable pageable,
+			@RequestParam(value = "search", required = false) String search, AccountFilterForm form
+			){
+		Page<Accounts> accounts = service.getAll(pageable, search, form);
 		
-		List<AccountDTO> acDTO = model.map(account, new TypeToken<List<AccountDTO>>() {}.getType());
-		return acDTO;
+		
+		//convert
+		List<AccountDTO> dtos = model.map(accounts.getContent(), new TypeToken<List<AccountDTO>>() {}.getType());
+		Page<AccountDTO> dtoPages = new PageImpl<>(dtos, pageable, accounts.getTotalElements());
+		return dtoPages;
 	}
 	
 	@GetMapping("/username/{username}")
@@ -74,21 +82,10 @@ public class AccountController {
 		return userIF;
 	}
 	
-	
-	@GetMapping("/paging/")
-	public Page<AccountDTO> getPaggingAccount(Pageable pageable,
-				@RequestParam(value = "search", required = false) String search, AccountFilterForm accFF){
-		System.out.println("Accounts paging: ");
-		System.out.println("accFF: " + accFF.toString());
-		Page<Accounts> pageAccount = service.getPagingAccounts(pageable, search, accFF);
-		
-		List<AccountDTO> accDTO = model.map(pageAccount.getContent(), new TypeToken<AccountDTO>() {}.getType());
-		Page<AccountDTO> pageAccDTO = new PageImpl<>(accDTO,pageable, pageAccount.getTotalElements());
-		return pageAccDTO;
-	}
+
 	
 	@PutMapping(value = "/id")
-	public ResponseEntity<?> updateByID(@RequestBody UpdateAccountForm UAForm, @PathVariable(name = "id") int id) {
+	public ResponseEntity<?> updateByID(@RequestBody @Valid UpdateAccountForm UAForm, @PathVariable(name = "id") int id) {
 		service.updateAccount(id, UAForm);
 		return new ResponseEntity<>("Update successfully", HttpStatus.OK);
 	}

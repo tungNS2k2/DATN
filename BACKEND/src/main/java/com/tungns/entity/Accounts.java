@@ -3,7 +3,6 @@ package com.tungns.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.annotations.OnDelete;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +21,8 @@ import lombok.NoArgsConstructor;
 @Table (name = "`Accounts`")
 @NoArgsConstructor
 public class Accounts implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

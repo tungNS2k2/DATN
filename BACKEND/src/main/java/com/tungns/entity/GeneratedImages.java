@@ -23,6 +23,8 @@ import lombok.Data;
 @Entity
 @Table(name = "Generated_Images")
 public class GeneratedImages implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
