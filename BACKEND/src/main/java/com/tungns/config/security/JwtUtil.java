@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -42,14 +44,15 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
-        String roles = userDetails.getAuthorities().stream()
+    public String generateToken(UserDetails userDetail) {
+    	
+        String role = userDetail.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         Map<String,Object> claims=new HashMap<>();
-        claims.put("roles", roles);
-        return createToken(claims, userDetails.getUsername());
+        claims.put("roles", role);
+        return createToken(claims, userDetail.getUsername());
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

@@ -2,6 +2,7 @@ package com.tungns.controller;
 
 import java.util.List;
 
+
 import org.apache.tomcat.util.json.Token;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ import com.tungns.service.IAccountService;
 
 import jakarta.validation.Valid;
 
+import com.tungns.form.Account.AccountFormCreating;
 import com.tungns.form.Account.UpdateAccountForm;
 
 @RestController
@@ -85,15 +88,41 @@ public class AccountController {
 	
 
 	
-	@PutMapping(value = "/id")
-	public ResponseEntity<?> updateByID(@RequestBody @Valid AccountDTO accDTO, @PathVariable(name = "id") int id) {
-		service.updateAccount(id, accDTO);
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<?> updateByID(@RequestBody @Valid AccountFormCreating form, @PathVariable(name = "id") int id) {
+		form.setId(id);
+		service.updateAccount(form);
 		return new ResponseEntity<>("Update successfully", HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/delete/{id}")
+	public ResponseEntity<?> deleteAccountByID(@PathVariable(name ="id") int id){
+		service.deleteAccount(id);
+		return new ResponseEntity<>("oke",HttpStatus.OK);
+	}
 	
 	@PostMapping()
-	public void createAccount() {
+	public ResponseEntity<?> createAccount(@RequestBody AccountFormCreating form) {
+		service.addNewAccount(form);
+		
+		return new ResponseEntity<>("add new successfully", HttpStatus.OK);
+		
+	}
+	
+	
+	@PostMapping(value = "/change-password")
+	public ResponseEntity<?> changePassword(@RequestParam(name = "username") String username, @RequestParam(name ="newPassword") String newPassword){
+		Accounts acc = service.getAccountByUsername(username);
+		
+		
+		BCryptPasswordEncoder pEndcoder = new BCryptPasswordEncoder();
+		String encryptPassword = pEndcoder.encode(newPassword);
+		
+		
+		acc.setPassword(encryptPassword);
+		service.changePasswordAccount(acc);
+		
+		return new ResponseEntity<>("change password successfully", HttpStatus.OK);
 		
 	}
 	
