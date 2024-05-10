@@ -24,6 +24,15 @@ public interface IAccountReponsitory extends JpaRepository<Accounts, Integer>, J
 	@Transactional
 	@Query("UPDATE Accounts ac SET ac.password = :newPassword, ac.status = 0 WHERE ac.id = :id")
 	public void changePasswordAccount(@Param("id") int id, @Param("newPassword") String newPassword);
+
+	public boolean existsByUsername(String username);
+
+	public boolean existsByEmail(String email);
+
+	@Modifying
+	@Transactional
+	@Query("UPDATE Accounts ac SET ac.password = :password, ac.status = 0 WHERE ac.id = :id")
+	public void resetPassword(int id, String password);
 	
 }
  

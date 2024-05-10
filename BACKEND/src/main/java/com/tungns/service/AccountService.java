@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.tungns.dto.AccountDTO;
 import com.tungns.entity.Accounts;
-import com.tungns.event.OnSendRegistrationUserConfirmViaEmailEvent;
+import com.tungns.event.mail.OnSendRegistrationUserConfirmViaEmailEvent;
+import com.tungns.event.mail.OnSendResetPassword;
+import com.tungns.event.mail.OnUpdatePasswordEvent;
+import com.tungns.event.mail.SendRegistrationUserConfirmViaEmailListener;
+import com.tungns.event.mail.UpdatePasswordListener;
 import com.tungns.filter.AccountFilterForm;
 import com.tungns.form.Account.AccountFormCreating;
 import com.tungns.form.Account.UpdateAccountForm;
@@ -54,7 +58,7 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public Page<Accounts> getAll(Pageable pageable, String search, AccountFilterForm acFF) {
+	public Page<Accounts> getAllAccounts(Pageable pageable, String search, AccountFilterForm acFF) {
 		Specification<Accounts> where = AccountSpecifications.buildWhere(search, acFF);
 		return accountReponsitory.findAll(where, pageable);
 	}
@@ -87,15 +91,13 @@ public class AccountService implements IAccountService {
 		// TODO Auto-generated method stub
 		accountReponsitory.changePasswordAccount(acc.getId(), acc.getPassword());
 		
-		sendConfirmUpdatePasswordViaEmail(acc.getEmail());
-		
-		
+		sendConfirmUpdatePasswordViaEmail(acc);
 		
 	}
 	
-	private void sendConfirmUpdatePasswordViaEmail(String email) {
-		eventPublisher.publishEvent(new OnSendRegistrationUserConfirmViaEmailEvent(email));
-		
+	private void sendConfirmUpdatePasswordViaEmail(Accounts acc) {
+		eventPublisher.publishEvent(new OnUpdatePasswordEvent(acc));
+	
 	}
 
 	@Override
@@ -105,6 +107,40 @@ public class AccountService implements IAccountService {
 		accountReponsitory.save(acc);
 		
 	}
+
+	@Override
+	public boolean existsByUsername(String username) {
+		// TODO Auto-generated method stub
+		return accountReponsitory.existsByUsername(username);
+	}
+
+	@Override
+	public boolean existsByEmail(String email) {
+		// TODO Auto-generated method stub
+		return accountReponsitory.existsByEmail(email);
+	}
+
+	@Override
+	public void createAccount(Accounts ac) {
+		accountReponsitory.save(ac);
+		//Send mail active
+		sendConfirmUserRegistrationViaEmail(ac.getEmail());
+	}
 	
+	private void sendConfirmUserRegistrationViaEmail(String email) {
+		eventPublisher.publishEvent(new OnSendRegistrationUserConfirmViaEmailEvent(email));
+	}
+
+	@Override
+	public void resetPassword(Accounts acc) {
+		accountReponsitory.resetPassword(acc.getId(), acc.getPassword());
+		
+		sendConfirmResetAccountPassword(acc);
+		
+	}
+	
+	public void sendConfirmResetAccountPassword(Accounts acc) {
+		eventPublisher.publishEvent(new OnSendResetPassword(acc));
+	}
 	
 }

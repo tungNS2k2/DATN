@@ -3,7 +3,6 @@ package com.tungns.controller;
 import java.util.List;
 
 
-import org.apache.tomcat.util.json.Token;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ import com.tungns.service.IAccountService;
 import jakarta.validation.Valid;
 
 import com.tungns.form.Account.AccountFormCreating;
-import com.tungns.form.Account.UpdateAccountForm;
 
 @RestController
 @CrossOrigin("*")
@@ -47,7 +45,7 @@ public class AccountController {
 	public Page<AccountDTO> getAll(Pageable pageable,
 			@RequestParam(value = "search", required = false) String search, AccountFilterForm form
 			){
-		Page<Accounts> accounts = service.getAll(pageable, search, form);
+		Page<Accounts> accounts = service.getAllAccounts(pageable, search, form);
 		
 		
 		//convert
@@ -124,6 +122,18 @@ public class AccountController {
 		
 		return new ResponseEntity<>("change password successfully", HttpStatus.OK);
 		
+	}
+	
+	@PostMapping(value = "/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestParam(name = "username") String username){
+		Accounts acc = service.getAccountByUsername(username);
+		
+		BCryptPasswordEncoder pEndcoder = new BCryptPasswordEncoder();
+		String encryptPassword = pEndcoder.encode("123abc");
+		
+		acc.setPassword(encryptPassword);
+		service.resetPassword(acc);
+		return new ResponseEntity<>("Reset password successfully!", HttpStatus.OK);
 	}
 	
 	

@@ -1,13 +1,12 @@
 package com.tungns.specification;
 
-
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
 
-import com.tungns.entity.Accounts;
+import com.tungns.entity.Images;
 import com.tungns.filter.AccountFilterForm;
-
+import com.tungns.form.Image.ImageFilterForm;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -17,19 +16,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("serial")
-public class AccountSpecifications{
+public class ImageSpecification{
 	
-	public static Specification<Accounts> buildWhere(String search, AccountFilterForm accFF){
-		Specification<Accounts> where = null;
+	public static Specification<Images> buildImageWhere(String search, ImageFilterForm form){
+		Specification<Images> where = null;
 		
-//		CustomSpecifications init = new CustomSpecifications("init", "init");
+		CustomImageSpecifications init = new CustomImageSpecifications("init", "init");
 		
-		if (!StringUtils.isEmpty(search)) {
-			search = search.trim();
-			CustomAccountSpecifications userName = new CustomAccountSpecifications("username", search);
-	
-			where = Specification.where(userName);
-		}
 	
 		
 		return where; 
@@ -42,7 +35,7 @@ public class AccountSpecifications{
 
 @SuppressWarnings("serial")
 @RequiredArgsConstructor
-class CustomAccountSpecifications implements Specification<Accounts>{
+class CustomImageSpecifications implements Specification<Images>{
 
 	@NonNull
 	private String field;
@@ -51,7 +44,7 @@ class CustomAccountSpecifications implements Specification<Accounts>{
 	
 	@Override
 	public Predicate toPredicate(
-			Root<Accounts> root, 
+			Root<Images> root, 
 			CriteriaQuery<?> query, 
 			CriteriaBuilder criteriaBuilder) {
 
@@ -59,9 +52,6 @@ class CustomAccountSpecifications implements Specification<Accounts>{
 			return criteriaBuilder.equal(criteriaBuilder.literal(1), 1);
 		}
 		
-		if (field.equalsIgnoreCase("username")) {
-			return criteriaBuilder.like(root.get("username"), "%" + value.toString() + "%");
-		}
 		
 		return null;
 	}

@@ -1,4 +1,4 @@
-package com.tungns.event;
+package com.tungns.event.mail;
 
 import org.springframework.context.ApplicationEvent;
 

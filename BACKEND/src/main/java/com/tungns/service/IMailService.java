@@ -6,4 +6,6 @@ public interface IMailService {
 
 	void sendUpdatePasswordConfirm(int id, String email);
 
+	void sendResetPasswordComfirm(int id, String email);
+
 }

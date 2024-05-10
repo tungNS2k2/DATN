@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tungns.config.security.JwtUtil;
 import com.tungns.dto.JwtResponDTO;
 import com.tungns.dto.SigninDTO;
+import com.tungns.dto.SignupDTO;
 import com.tungns.entity.Accounts;
 import com.tungns.service.CustomAccountsDetailsService;
 import com.tungns.service.IAccountService;
+
+import jakarta.validation.Valid;
 
 
 
@@ -76,5 +80,31 @@ public class AuthController {
         return ResponseEntity.ok(Response);
     }
 	
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@RequestBody @Valid SignupDTO signupDTO){
+		System.out.println(signupDTO.toString());
+		if(accService.existsByUsername(signupDTO.getUsername())) {
+			return ResponseEntity.badRequest().body("Error: User is already taken!");
+		}
+		
+		if(accService.existsByEmail(signupDTO.getEmail())) {
+			return ResponseEntity.badRequest().body("Error: Email is already taken!");
+		}
+		
+		Accounts acc = model.map(signupDTO, Accounts.class);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		String enCryptPassword = passwordEncoder.encode(signupDTO.getPassword());
+		
+		acc.setPassword(enCryptPassword);
+		acc.setStatus(Accounts.AccountStatus.NOT_ACTIVE);
+		
+		System.out.println("oke");
+		accService.createAccount(acc);
+		
+		return ResponseEntity.ok().body("user register successfully!");
+		
+		
+	}
 
 }
