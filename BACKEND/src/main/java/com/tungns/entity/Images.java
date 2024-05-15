@@ -9,8 +9,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.tungns.entity.Accounts.AccountRole;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,9 +38,20 @@ public class Images implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name = "name", length = 50, nullable = false)
+	private String nameImage;
 	
 	@Column(name = "image_url", length = 250, nullable = false)
 	private String imageUrl;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "category", columnDefinition = "ENUM('DOG', 'CAT', 'OTHER')")
+	private categoryRole category;
+	
+	@Column(name ="rate")
+	private long rate = 0;
+	
+	
 	
 	@Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -47,5 +62,16 @@ public class Images implements Serializable{
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "`accountId`")
 	private Accounts account;
+	
+	public enum categoryRole {
+		DOG, CAT, OTHER;
+		public static categoryRole toEnum(String name) {
+			for (categoryRole item : categoryRole.values()) {
+				if (item.toString().equals(name))
+					return item;
+			}
+			return null;
+		}
+	}
 	
 }

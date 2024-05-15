@@ -10,10 +10,13 @@ import lombok.NoArgsConstructor;
 public class ImageDTO {
 	private String imageUrl;
 	
-	private String createAT;
+	private String createdAt;
+	
+	private String nameImage;
+	
+	private String category; 
 	
 	private AccountDTO account;
-	
 	
 	@Data
 	@NoArgsConstructor

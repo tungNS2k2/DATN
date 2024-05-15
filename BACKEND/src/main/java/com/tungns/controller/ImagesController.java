@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tungns.dto.ImageDTO;
 import com.tungns.entity.Images;
 import com.tungns.form.Image.ImageFilterForm;
+import com.tungns.form.Image.imageFormCreating;
 import com.tungns.service.IImagesService;
 
 @RestController
@@ -48,12 +54,29 @@ public class ImagesController {
 	
 	
 	@GetMapping("/{id}")
-	public ImageDTO getImageById(@PathVariable(name ="id") int id) {
+	public ResponseEntity<?> getImageById(@PathVariable(name ="id") int id) {
 		Images ima = service.getImageById(id);
-		System.out.println(ima);
+		
 		
 		ImageDTO imageDTO = model.map(ima, ImageDTO.class);
 		
-		return imageDTO;
+		return new ResponseEntity<>(imageDTO, HttpStatus.OK);
 	}
+	
+	@PostMapping("/delete/{}")
+	public ResponseEntity<?> deleteImageById(@PathVariable(name ="id") int id){
+		service.deleteImage(id);
+		
+		return new ResponseEntity<>("Delete Successfuly! ", HttpStatus.OK);
+	}
+	
+	@PostMapping()
+	public ResponseEntity<?> createImage(@RequestBody imageFormCreating form){
+		service.addNewImage(form);
+		
+		return new ResponseEntity<>("add new Image successfully!", HttpStatus.OK);
+		
+		
+	}
+	
 }
