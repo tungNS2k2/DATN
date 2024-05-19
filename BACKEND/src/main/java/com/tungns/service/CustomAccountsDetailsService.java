@@ -31,6 +31,6 @@ public class CustomAccountsDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(acc.getRole().name()));
 
-        return new User(acc.getUsername(), acc.getPassword(), authorities);
+        return new User(acc.getUsername(), acc.getPassword(), authorities );
     }
 }

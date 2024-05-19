@@ -16,9 +16,15 @@ const menuHeaderLinks =[
         icon: 'fa-solid fa-dog'
     },
     {
-        text: 'more',
+        text: 'More',
         link: '/more',
         icon: 'fa-solid fa-bars'
+    },
+
+    {
+        text: 'Generated',
+        link: '/generated',
+        icon: 'fa-solid fa-plus'
     }
 ]
 export default menuHeaderLinks;

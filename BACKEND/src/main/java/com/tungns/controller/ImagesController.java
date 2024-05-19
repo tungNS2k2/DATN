@@ -42,9 +42,9 @@ public class ImagesController {
 	
 	@GetMapping()
 	public Page<ImageDTO> getAll(Pageable pageable,
-			@RequestParam(value = "search", required = false) String search, ImageFilterForm form
+			@RequestParam(value = "search", required = false) String search, String category,ImageFilterForm form
 			){
-		Page<Images> imas = service.getAllImages(pageable, search, form);
+		Page<Images> imas = service.getAllImages(pageable, search,category ,form);
 		
 		
 		List<ImageDTO> dtos = model.map(imas.getContent(), new TypeToken<List<ImageDTO>>() {}.getType());

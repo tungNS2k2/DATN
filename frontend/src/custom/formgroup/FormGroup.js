@@ -1,15 +1,13 @@
 import './FormGroup.css'
 
-const FormGroup = (props, className) => {
+const FormGroup = (props) => {
     return (
-        <div className={`.form-group ${className}`}
-            style={{ width: props.width ? props.width : '100%',
-             marginBottom: props.marginBottom ? props.marginBottom : 'inherit'
-        }}
+        <div className="form-group"
+            style={{width: props.width ? props.width : '100%'}}
         >
             {props.children}
         </div>
     )
 }
 
-export default FormGroup;
+export default FormGroup

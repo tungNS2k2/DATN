@@ -3,13 +3,14 @@ package com.tungns.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
-
 import com.tungns.entity.Images;
+import com.tungns.entity.Images.categoryRole;
 import com.tungns.filter.AccountFilterForm;
 import com.tungns.form.Image.ImageFilterForm;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.NonNull;
@@ -18,13 +19,17 @@ import lombok.RequiredArgsConstructor;
 @SuppressWarnings("serial")
 public class ImageSpecification{
 	
-	public static Specification<Images> buildImageWhere(String search, ImageFilterForm form){
+	public static Specification<Images> buildImageWhere(String search, String category,ImageFilterForm form){
 		Specification<Images> where = null;
 		
 		CustomImageSpecifications init = new CustomImageSpecifications("init", "init");
-		
+		where = Specification.where(init);
 	
-		
+		if (form != null && !StringUtils.isEmpty(form.getCategory())) {
+			CustomImageSpecifications accountRole = new CustomImageSpecifications("role", form.getCategory());
+			if (where == null) where = accountRole;
+			else where = where.and(accountRole);
+		}
 		return where; 
 		
 		
@@ -52,6 +57,11 @@ class CustomImageSpecifications implements Specification<Images>{
 			return criteriaBuilder.equal(criteriaBuilder.literal(1), 1);
 		}
 		
+		if(field.equalsIgnoreCase("category")) {
+			
+
+		    return criteriaBuilder.equal(root.get("category"), categoryRole.toEnum(value.toString())); 
+		}
 		
 		return null;
 	}

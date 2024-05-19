@@ -16,10 +16,10 @@
     transition: border-color ease-in-out .2s;
 }
 
-
 .formcontrol-input input.active {
     border-color: transparent;
     width: 100%;
+    
 }
 
 .formcontrol-input input.not-empty {
@@ -28,7 +28,7 @@
 
 .formcontrol-input label {
     position: absolute;
-    top: -50%;
+    top: 0;
     left: 0;
     transform: translate(14px, 14px);
     color: rgba(0, 0, 0, .48);
@@ -37,27 +37,21 @@
 }
 
 .formcontrol-input label.active {
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -75%);
+    transform: translate(14px, -11px);
     /* transform: translate(18px, -11px); */
     font-size: 0.85rem;
     color: rgb(25, 118, 210);
-    /* display: none; */
-    transition: none;
 }
 
 .formcontrol-input label.not-empty {
-    top: -80%;
-    left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(14px, -11px);
     color: rgba(0, 0, 0, .48);
     font-size: 0.85rem;
 }
 
 .formcontrol-input fieldset {
     /* border: 2px solid rgb(25, 118, 210); */
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-radius: 4px;
     position: absolute;
     top: -10px;
@@ -80,7 +74,7 @@
 }
 
 .formcontrol-input legend {
-    padding: 0 8px; 
+    padding: 0 8px;
     font-size: 0.85rem;
     visibility: hidden;
 } 

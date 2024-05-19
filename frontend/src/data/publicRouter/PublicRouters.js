@@ -5,6 +5,19 @@ import Body from "../../page/body/Body";
 import CatPage from "../../page/body/CatPage";
 import ContentHome from "../../page/body/ContentHome";
 import DogPage from "../../page/body/DogPage";
+import Signin from "../../page/header/Signin";
+import WithLoading from "../../custom/HOC/withloading/WithLoading";
+import Signup from "../../page/signup/Signup";
+import Generated from "../../page/body/generated/generated";
+import More from "../../page/body/more/More";
+
+const signinWithLoading = WithLoading(Signin);
+const signupWithLoading = WithLoading(Signup);
+
+const dogWithLoading = WithLoading(DogPage);
+const catdWithLoading = WithLoading(CatPage);
+const moreWithLoading = WithLoading(More);
+const generatedWithLoading = WithLoading(Generated);
 
 const  publicRouters = [
     {
@@ -13,21 +26,22 @@ const  publicRouters = [
         childRoutes: [
             {path: '/Home', component: ContentHome},
             {path: '', component: ContentHome},
-            {path: '/cat', component: CatPage},
-            {path: '/dog', component: DogPage},
+            {path: '/cat', component: catdWithLoading},
+            {path: '/dog', component: dogWithLoading},
+            {path: '/more', component: moreWithLoading},
+            {path: '/generated', component: generatedWithLoading},
             
             
         ]
     },
-    // {
-    //     path: '/',
-    //     component: '',
-    //     childRoutes: [
-    //         {path: '', component: ''},
-    //         {path: '', component: ''},
-            
-    //     ]
-    // },
+    {
+        path: '/signin',
+        component: signinWithLoading
+    },
+    {
+        path: '/signup',
+        component: signupWithLoading
+    },
     // {
     //     path: '/',
     //     component: '',

@@ -21,6 +21,6 @@ public interface ICloundinaryService {
 
 	List<String> deleteAllImagesInFolder(String folder);
 	public List<CloundinaryDTO> getAllImagesInFolder(String folder);
-	public List<CloundinaryDTO> moveAllImagesInFolder(String sourceFolder, String targetFolder);
+	public List<CloundinaryDTO> moveSelectedImagesToFolder(List<String> publicIds, String targetFolder);
 	
 }

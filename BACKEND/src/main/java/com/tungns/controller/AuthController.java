@@ -72,11 +72,11 @@ public class AuthController {
 
         final UserDetails userDetails = customUserDetailsService
                 .loadUserByUsername(signinDTO.getUsername());
-
+        final int id = accService.getAccountByUsername(signinDTO.getUsername()).getId();
         final String jwt = jwtUtil.generateToken(userDetails);
-
-        JwtResponDTO Response = new JwtResponDTO(jwt, userDetails);
-
+ 
+        JwtResponDTO Response = new JwtResponDTO(jwt, userDetails, userDetails.getAuthorities().toString(), id);
+        
         return ResponseEntity.ok(Response);
     }
 	
@@ -97,8 +97,9 @@ public class AuthController {
 		String enCryptPassword = passwordEncoder.encode(signupDTO.getPassword());
 		
 		acc.setPassword(enCryptPassword);
+		acc.setRole(Accounts.AccountRole.USER);	
 		acc.setStatus(Accounts.AccountStatus.NOT_ACTIVE);
-		
+			
 		System.out.println("oke");
 		accService.createAccount(acc);
 		

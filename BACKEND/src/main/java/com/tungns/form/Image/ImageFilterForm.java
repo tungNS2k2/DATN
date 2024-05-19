@@ -5,4 +5,6 @@ import lombok.Data;
 @Data
 public class ImageFilterForm {
 	private String createAt;
+	
+	private String category;
 }

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cloudinary.utils.ObjectUtils;
+
 import com.tungns.dto.CloundinaryDTO;
 import com.tungns.service.ICloundinaryService;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -26,33 +26,35 @@ public class CloundinaryController {
     private ICloundinaryService cloudinaryService;
 
     @GetMapping()
-    public List<CloundinaryDTO> getAllImages() {
-        return cloudinaryService.getAllImageCloudinary();
-    }
-    
-    @GetMapping("/folder")
-    public List<CloundinaryDTO> getAllImagesInFolder(@RequestParam(name ="folder") String folder){
-    	return cloudinaryService.getAllImagesInFolder(folder);
+    public ResponseEntity<List<CloundinaryDTO>> getAllImages() {
+        List<CloundinaryDTO> images = cloudinaryService.getAllImageCloudinary();
+        return ResponseEntity.ok().body(images);
     }
 
-    
-    
-    
-    
+    @GetMapping("/folder")
+    public ResponseEntity<List<CloundinaryDTO>> getAllImagesInFolder(@RequestParam(name ="folder") String folder) {
+        List<CloundinaryDTO> imagesInFolder = cloudinaryService.getAllImagesInFolder(folder);
+        return ResponseEntity.ok().body(imagesInFolder);
+    }
+
     @DeleteMapping("/{publicId}")
-    public String deleteImage(@PathVariable String publicId) {
-        return cloudinaryService.deleteImage(publicId);
+    public ResponseEntity<String> deleteImage(@PathVariable String publicId) {
+        String result = cloudinaryService.deleteImage(publicId);
+        return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("/delete/folder")
-    public ResponseEntity<?> deleteAllImages(@RequestParam(name ="folder") String folder) {
-    	cloudinaryService.deleteAllImagesInFolder(folder);
-        return new ResponseEntity<>("Delete all Image Successfully!", HttpStatus.OK);
-    }
-    
+    public ResponseEntity<String> deleteAllImages(@RequestParam(name ="folder") String folder) {
+        cloudinaryService.deleteAllImagesInFolder(folder);
+        return ResponseEntity.ok().body("Delete all Image Successfully!");
+    } 
+
     @PostMapping("/move")
-    public List<CloundinaryDTO> moveImages(@RequestParam("sourceFolder") String sourceFolder, @RequestParam("targetFolder") String targetFolder) {
-        return cloudinaryService.moveAllImagesInFolder(sourceFolder, targetFolder);
+    public ResponseEntity<List<CloundinaryDTO>> moveImagesToFolder(@RequestParam("publicIds") List<String> publicIds, 
+                                                                    @RequestParam("targetFolder") String targetFolder) {
+        List<CloundinaryDTO> movedImages = cloudinaryService.moveSelectedImagesToFolder(publicIds, targetFolder);
+        return ResponseEntity.ok().body(movedImages);
     }
-    
+
+
 }

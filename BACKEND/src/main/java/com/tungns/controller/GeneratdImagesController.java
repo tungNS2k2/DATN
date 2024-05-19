@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tungns.dto.CloundinaryDTO;
 import com.tungns.service.CloudinaryService;
 import com.tungns.service.ICloundinaryService;
 import com.tungns.service.biggan.BigGANService;
@@ -52,7 +53,9 @@ public class GeneratdImagesController {
         try {
             Image[] generatedImages = bigGANService.generateImages(n, size, title_start, title_end);
             List<String> uploadedUrls = cloundinaryService.uploadImagesToCloudinary(generatedImages, folder);
-            return "Generated " + generatedImages.length + " images. Uploaded URLs: " + uploadedUrls;
+            
+            List<CloundinaryDTO> getAll=cloundinaryService.getAllImagesInFolder(folder);
+            return "Generated " + generatedImages.length + " images. uploadedURLs: " + uploadedUrls +"/n" +getAll;
         } catch (IOException | ModelException | TranslateException e) {
             e.printStackTrace();
             return "Failed to generate and upload images.";

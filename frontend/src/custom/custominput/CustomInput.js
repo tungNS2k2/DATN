@@ -6,21 +6,7 @@ const CustomInput = (props) => {
     const [inputFocus, setInputFocus] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
     const [value, setValue] = useState('');
-    const { 
-        width, 
-        type, 
-        uppercase, 
-        large, 
-        color,
-        backgroundColor,
-        border,
-        fontSize,
-        height,
-        sizeLabel,
-        //children,
-        ...otherProps
-        
-    } = props;
+
     const _onFoucs = () => {
         setInputFocus(true)
     }
@@ -53,9 +39,6 @@ const CustomInput = (props) => {
         <div className='formcontrol-input'>
             <label
                 className={inputFocus ? 'active' : (!isEmpty ?'not-empty' : '')}
-                style={{
-                    fontSize:sizeLabel ? sizeLabel : 'inherit'
-                }}
             >
                 {props.label}
             </label>
@@ -64,20 +47,9 @@ const CustomInput = (props) => {
                 type={props.type}
                 onFocus={_onFoucs}
                 onBlur={_onblur}
-                value={value}
+                value={value || ''}
                 name={props.name}
                 onChange={_onChange}
-                style={{
-                    width: width ? width : 'inherit',
-                    height: height ? height: 'inherit',
-                    textTransform: uppercase ? 'uppercase' : 'none',
-                    color: color,
-                    cursor: 'auto',
-                    backgroundColor: backgroundColor,
-                    border: border,
-                    fontSize: fontSize
-                }}
-                {...otherProps}
             />
             <fieldset className={inputFocus ? 'active' : (!isEmpty ?'not-empty' : '')}>
                 <legend>{props.label}</legend>

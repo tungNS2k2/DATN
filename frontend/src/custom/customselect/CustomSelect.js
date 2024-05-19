@@ -1,60 +1,38 @@
-import { Component } from 'react';
-import Styles from './CustomSelect.module.scss'
-class CustomSelect extends Component{
-    constructor(props){
-        super(props)
-        this.state ={
+import React from 'react';
+import styled from 'styled-components';
 
-        }
-    }
+const SelectContainer = styled.div`
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+`;
 
+const Label = styled.label`
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+`;
 
-    render(){
-        const {
-            action,
-            method,
-            width,
-            height,
-            color,
-            nameSelect,
-            id,
-            sWidth,
-            sColor,
-            sHeight,
-            value,
-            sFontSize,
-            ...otherProps
-        } = this.props;
-        return(
-            <form className={Styles.FormSelect} action={action} method={method}
-            style={{
-                width: width,
-                height: height,
-                color: color,
-                cursor: 'pointer',
-                
-            }}
-        >
-            <select className={Styles.select} name={nameSelect} id = {id}
-                style={{
-                    fontSize: sFontSize,
-                    width: sWidth,
-                    color: sColor,
-                    height: sHeight
-                }}
-            >
-                {/* {
-                this.props.children.map((item)=>{
-                    return(
-                        <option value={value}>{item.nameOption}</option> 
-                    )
-                })
-            } */}
+const Select = styled.select`
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+`;
 
-            <option value={value}>{this.props.children}</option> 
-            </select>
-        </form>
-        )
-    }
-}
+const CustomSelect = ({ label, options, value, onChange, name, title }) => {
+  return (
+    <SelectContainer>
+      {/* {label && <Label htmlFor={name}>{label}</Label>} */}
+      <Select id={name} name={name} value={value} onChange={onChange}>
+        <option value="" disabled>{title}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </Select>
+    </SelectContainer>
+  );
+};
+
 export default CustomSelect;

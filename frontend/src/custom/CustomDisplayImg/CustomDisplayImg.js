@@ -75,28 +75,24 @@ const DisplayImg = styled.div`
 
 }
 `
-
-const CustomDisplayImg = (props) =>{
-    return(
+const CustomDisplayImg = (props) => {
+    return (
         <DisplayImg className="CustomDisplayIMG">
-             {
-                props.imgUrls.map((item, index) => 
-                    <NavLink key={index} to={item.url} className={({ isActive }) => isActive ? 'url-item active' : 'url-item'}>
-                        <div className="img-box">
-                            <img className='img-item' src={item.url} alt={item.alt}/>
-                            <div className='title'>
-                                <span>
-                                {item.title}
-                                </span>
-                            <i class="fa-solid fa-heart"></i>
-                            </div>
+            {props.imgUrls && props.imgUrls.map((item, index) => (
+                <NavLink key={index} to={item.url} className={({ isActive }) => isActive ? 'url-item active' : 'url-item'}>
+                    <div className="img-box">
+                        <img className='img-item' src={item.url} alt={item.alt} />
+                        <div className='title'>
+                            <span>{item.title}</span>
+                            <i className="fa-solid fa-heart"></i>
                         </div>
-                    </NavLink>
-                )
-            }
+                    </div>
+                </NavLink>
+            ))}
         </DisplayImg>
     )
 }
+
 
 
 export default CustomDisplayImg;

@@ -12,7 +12,4 @@ public class SignupDTO {
 	
 	private String email;
 	
-	private String avatarUrl;
-	
-	private String role;
 }

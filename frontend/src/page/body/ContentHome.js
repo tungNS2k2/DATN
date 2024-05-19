@@ -72,7 +72,7 @@ const ContentHome = () =>{
                     <CustomDisplayImg imgUrls = {imgUrls} />
                     <div className="view-more">
                         
-                        <i class="fa-solid fa-chevron-right"></i>
+                        <i className="fa-solid fa-chevron-right"></i>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@ const ContentHome = () =>{
                     </div>
                     <CustomDisplayImg imgUrls = {imgUrls} />
                     <div className="view-more">
-                        <i class="fa-solid fa-chevron-right"></i>
+                        <i className="fa-solid fa-chevron-right"></i>
                     </div>
                     
                 </div>

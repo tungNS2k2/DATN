@@ -67,7 +67,8 @@ public class CloudinaryService implements ICloundinaryService {
             Map result = cloudinary.api().resources(ObjectUtils.asMap(
                     "type", "upload",
                     "resource_type", "image",
-                    "prefix", folder + "/"
+                    "prefix", folder + "/",
+                    "max_results", 500
             ));
             List<Map<String, Object>> resources = (List<Map<String, Object>>) result.get("resources");
             for (Map<String, Object> resource : resources) {
@@ -140,26 +141,32 @@ public class CloudinaryService implements ICloundinaryService {
         return deletedImages;
     }
 
-	@Override
-	public List<CloundinaryDTO> moveAllImagesInFolder(String sourceFolder, String targetFolder) {
+    public List<CloundinaryDTO> moveSelectedImagesToFolder(List<String> publicIds, String targetFolder) {
         List<CloundinaryDTO> movedImages = new ArrayList<>();
-        List<CloundinaryDTO> images = getAllImagesInFolder(sourceFolder);
-        for (CloundinaryDTO image : images) {
-            movedImages.add(image);
-            moveImageToFolder(image.getPublic_id(), targetFolder);
+        for (String publicId : publicIds) {
+            CloundinaryDTO image = moveImageToFolder(publicId, targetFolder);
+            if (image != null) {
+                movedImages.add(image);
+            }
         }
         return movedImages;
     }
 
-	private void moveImageToFolder(String publicId, String targetFolder) {
+    private CloundinaryDTO moveImageToFolder(String publicId, String targetFolder) {
         try {
             String newPublicId = targetFolder + "/" + publicId.substring(publicId.lastIndexOf("/") + 1);
+            // Di chuyển ảnh vào thư mục mới bằng cách thay đổi public_id
             cloudinary.uploader().rename(publicId, newPublicId, ObjectUtils.emptyMap());
+            // Tạo đối tượng CloundinaryDTO để biểu diễn cho ảnh đã chuyển
+            CloundinaryDTO movedImage = new CloundinaryDTO();
+            movedImage.setPublic_id(newPublicId);
+            return movedImage;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
-    
+
 	
     
 }
