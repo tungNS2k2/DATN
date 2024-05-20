@@ -46,7 +46,7 @@ const SignupContainer = styled.div`
     }
 
     .btn-submit {
-        margin-top: 2rem;
+        margin-top: 1.8rem;
     }
 
     .group-link {
@@ -75,6 +75,9 @@ const SignupContainer = styled.div`
     .copy-right a {
         color: rgba(0, 0, 0, .6);
     }
+    .signup-header{
+        margin-bottom: 2rem;
+    }
 
 
     .signup-main .form-group p{
@@ -85,7 +88,7 @@ const SignupContainer = styled.div`
 
     .signup-main{
         width: 320px;
-        margin-top: 2rem;
+        margin: auto;
     }
 
     .signup-main>p:first-child{

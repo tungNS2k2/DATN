@@ -11,48 +11,78 @@ import imagesActions from '../../../redux/actions/imagesAction';
 
 const Generated_Style = styled.div`
   position: relative;
-  top:0;
+  top: 0;
   right: 0;
-  .loading-container{
-    width: 100%
-
+  .loading-container {
+    width: 100%;
   }
 
-  .form-nav{
+  .form-nav {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    border-bottom: 2px solid #ccc; /* Thêm đường viền dưới form */
+    padding-bottom: 10px; /* Khoảng cách giữa nội dung form và đường viền */
+    margin-bottom: 20px; /* Khoảng cách giữa form và các phần tử bên dưới */
+    width: 100%; /* Đảm bảo form chiếm toàn bộ chiều rộng của thành phần cha */
+    justify-content: center;
 
-    .formcontrol-input{
-        top: 16px;
-        margin-right: 2rem;
+
+    .formcontrol-input {
+      top: 16px;
+      margin-right: 2rem;
+      border-radius: 20px;
     }
-    .formcontrol-input input{
-        height: 2.2rem;
-        border-radius: 20px;
+    .formcontrol-input input {
+      height: 2.2rem;
+      border-radius: 20px;
     }
-    .btn-generated{
-        position: relative;
-        top: 16px;
-        height: 2.2rem;
-        padding: 6px;
-        border-radius: 20px;
-        background-color: #ffa50000;
-        border: 0.5px solid #ccc;
+    .btn-generated {
+      position: relative;
+      top: 16px;
+      height: 2.2rem;
+      padding: 6px;
+      border-radius: 20px;
+      background-color: #ffa50000;
+      border: 0.5px solid #ccc;
+      margin-right: 1.6rem;
     }
 
-    .div-custom{
-        margin-right: 2rem;
+    .div-custom {
+      margin-right: 2rem;
+      .div_err_formik{
+        text-align: center;
+      }
+
+      .err-message{
+        text-align: center;
+        position: absolute;
+        top: 58%;
+        left: 47.6%;
+
+      }
+    }
+    .custom_select{
+      border-radius: 20px;
     }
     .formcontrol-input fieldset.active {
-        border-radius: 20px;
+      border-radius: 20px;
     }
     .formcontrol-input label {
-        top: -5px;
+      top: -5px;
     }
-    .btn-generated:hover{
-        background-color: #00eeff66;
-        cursor: pointer;
+
+    .formcontrol-input fieldset{
+      border-radius: 20px;
+    }
+
+
+    .formcontrol-input fieldset.active {
+      border-radius: 20px;
+  }
+    .btn-generated:hover {
+      background-color: #00eeff66;
+      cursor: pointer;
     }
   }
 `;
@@ -60,6 +90,7 @@ const Generated_Style = styled.div`
 const Generated = (props) => {
   const [generatedOnce, setGeneratedOnce] = useState(false);
   const [selectedPublicIds, setSelectedPublicIds] = useState([]);
+  const [refreshComponent, setRefreshComponent] = useState(false); // State to trigger re-render
   const [formDataList, setFormDataList] = useState([]);
   const [imageUrl, setImageUrl] = useState('');
   const [nameImage, setNameImage] = useState('');
@@ -78,20 +109,19 @@ const Generated = (props) => {
       category: Yup.string().required('Required!'),
       size: Yup.string().required('Required!'),
       n: Yup.number()
-      .integer('Must be an integer')
-      .min(1, 'Minimum 1 image')
-      .max(10, 'Maximum 10 images')
-      .required('Required!')
+        .integer('Must be an integer')
+        .min(1, 'Minimum 1 image')
+        .max(10, 'Maximum 10 images')
+        .required('Required!')
     }),
     onSubmit: values => {
-        props.deleteAllImages("samples")
-        const { n, size, folder, pair } = values;
-        props.generateImage(n, size, "samples", pair[0], pair[1]);
-        // console.log(props.generatedImageUrls);
+      props.deleteAllImages("samples");
+      const { n, size, folder, pair } = values;
+      props.generateImage(n, size, "samples", pair[0], pair[1]);
     }
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     props.showLoading(props.isLoading);
   }, [props.isLoading]);
 
@@ -99,7 +129,6 @@ const Generated = (props) => {
     if (props.generatedImageUrls.length > 0 && !generatedOnce) {
       setGeneratedOnce(true);
     }
-    // props.showImage('samples')
   }, [props.generatedImageUrls]);
 
   const handleImageSelect = (publicId) => {
@@ -116,11 +145,6 @@ const Generated = (props) => {
     setSelectedPublicIds([]); // Clear selected images after moving
   };
 
-  
-
-  
-
-
   useEffect(() => {
     if (selectedPublicIds.length > 0) {
       const newDataList = selectedPublicIds.map(publicId => {
@@ -134,7 +158,7 @@ const Generated = (props) => {
       });
       setFormDataList(newDataList);
     }
-  }, [selectedPublicIds, props.generatedImageUrls, accountId, formik.values.folder,]);
+  }, [selectedPublicIds, props.generatedImageUrls, accountId, formik.values.folder]);
 
   const handleCreateImages = () => {
     formDataList.forEach(item => {
@@ -144,19 +168,12 @@ const Generated = (props) => {
     });
   };
 
-  // const handleCreateImages = () => {
-    
-  //   formDataList.forEach((item) => {
-  //     const { publicId, ...rest } = item; // Loại bỏ publicId
-  //     console.log("oke", item);
-  //     props.addImages(rest);
-  //   });};
-  
   const handleMoveAndCreateImages = () => {
     handleMoveImages();
     handleCreateImages();
+    props.resetImageGeneratedUrls();
+    console.log(props.generatedImageUrls)
   };
-
 
   const handleCategoryChange = (event) => {
     const selectedOption = options2.find(option => option.value === event.target.value);
@@ -174,7 +191,7 @@ const Generated = (props) => {
   const options2 = [
     { value: 'dog', label: 'DOG', pair: [131, 151], folder: 'DOG' },
     { value: 'cat', label: 'CAT', pair: [281, 13], folder: 'CAT' },
-    { value: 'more', label: 'MORE', pair: [5, 6], folder: 'ANOTHER' }
+    { value: 'more', label: 'MORE', pair: [5, 6], folder: 'OTHER' }
   ];
 
   return (
@@ -190,7 +207,7 @@ const Generated = (props) => {
             onChange={formik.handleChange}
           />
           {formik.errors.size && formik.touched.size && (
-            <div style={{ color: 'red' }}>{formik.errors.size}</div>
+            <div className='div_err_formik' style={{ color: 'red' }}>{formik.errors.size}</div>
           )}
         </div>
 
@@ -204,7 +221,7 @@ const Generated = (props) => {
             onChange={handleCategoryChange}
           />
           {formik.errors.category && formik.touched.category && (
-            <div style={{ color: 'red' }}>{formik.errors.category}</div>
+            <div className='div_err_formik' style={{ color: 'red' }}>{formik.errors.category}</div>
           )}
         </div>
 
@@ -223,17 +240,16 @@ const Generated = (props) => {
 
         <button className='btn-generated' type="submit">Submit</button>
         <button className='btn-generated' onClick={handleMoveAndCreateImages} disabled={selectedPublicIds.length === 0}>
-          Save
-      </button>
+          Save & Clear
+        </button>
       </form>
 
-      <CustomDisplayGeneratedImage 
+      <CustomDisplayGeneratedImage
+        key={refreshComponent}
         generatedImageUrls={props.generatedImageUrls} 
         selectedPublicIds={selectedPublicIds}
         onImageSelect={handleImageSelect} 
       />
-
-     
     </Generated_Style>
   );
 };
@@ -243,8 +259,8 @@ const mapStateToProps = (state) => {
     isLoading: state.generatedImage.isLoading,
     error: state.generatedImage.error,
     generatedImageUrls: state.generatedImage.generatedImageUrls
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -255,21 +271,21 @@ const mapDispatchToProps = (dispatch) => {
             return generatedImageUrls;
           }
         });
-
     },
-    // showImage: (folder) =>{
-    //   return dispatch(imageActions.getAllImageGenerate(folder));
-    // },
     deleteAllImages: (folder) => {
       dispatch(imageActions.deleteGeneratedImageInFolder(folder));
     },
-    moveImagesToFolder: (publicIds, folder) =>{
-      dispatch(imageActions.moveImagesToFolder(publicIds, folder))
+    moveImagesToFolder: (publicIds, folder) => {
+      dispatch(imageActions.moveImagesToFolder(publicIds, folder));
     },
-    addImages: (form) =>{
+    addImages: (form) => {
       dispatch(imagesActions.addImages(form));
+    },
+
+    resetImageGeneratedUrls: ()=>{
+      dispatch(imageActions.resetGeneratedImages());
     }
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Generated);

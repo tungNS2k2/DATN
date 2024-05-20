@@ -93,6 +93,12 @@ const imageReducer = (state = initialState, action) => {
         error: action.payload
       }
 
+      case actionTypes.RESET_GENERATED_IMAGES:
+        return {
+          ...state,
+          generatedImageUrls: [], // Reset generatedImageUrls to empty array
+        };
+
       
     default:
       return state;

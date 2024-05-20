@@ -1,5 +1,5 @@
 .loading-container {
-    width: fit-content;
+    width: 100%;
     height: auto;
     margin: auto;
     // border: 1px solid red;
@@ -11,7 +11,7 @@
         height: 100%;
         position: absolute;
         z-index: 2;
-        opacity: 0.6;
+        opacity: 0.75;
         .loading-main{
             position: absolute;
             top: 50%;
@@ -21,13 +21,14 @@
             justify-content: center;
             flex-direction: column;
             align-items: center;
+
             img{
-                width: 3rem;
-                height: 3rem;
+                width: 10rem;
+                height: auto;
             }
             h4{
                 text-align: center;
-                color: rgba(0,0,0,0.5);
+                color: rgba(0,0,0,1);
             }
         }
     }

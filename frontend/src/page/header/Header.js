@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import style from "styled-components";
 import menuHeaderLinks from "../../data/menuLinksHeader/menuHeaderLinks";
 import CustomLinks2 from "../../custom/customlinks/CustomLinks2"
@@ -7,6 +8,8 @@ import CustomButton from "../../custom/custombutton/CustomButton"
 import { CiSearch } from "react-icons/ci";
 import CustomLink3 from "../../custom/customlinks/CustomLinks3";
 import logoLink from "../../data/logoLinks/logoLink";
+
+import UserMenu from '../menuuser/MenuUser';
 
 const HeaderStyle = style.div`
     display: flex;
@@ -84,8 +87,14 @@ const HeaderStyle = style.div`
         border-radius: 30px;
     }
 
+    
 `
 const Header = () =>{
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/profile');
+    };
     return(
         <HeaderStyle className="header">
             <div className="logo">
@@ -99,26 +108,8 @@ const Header = () =>{
                 <CustomLinks2 menuLinks ={menuHeaderLinks}/>
             </div>
 
-            <div className="search">
-                <FormGroup className= 'formGroup' marginBottom= "0">
-                    <CustomInput 
-                        label='Search...'
-                        sizeLabel ='0.8rem'
-                        type = 'search'
-                        name = 'search'
-
-                    />
-                    <div className="button-search">
-                        <CustomButton>
-                        <CiSearch 
-                        size={22}
-                        color = 'rgba(0,0,0,0.5)'
-                        style={{}}
-                         />
-                        </CustomButton>
-                    </div>
-                </FormGroup>
-            </div>
+            <UserMenu />
+            
         </HeaderStyle>
     )
 }

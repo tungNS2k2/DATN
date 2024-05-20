@@ -9,7 +9,7 @@ import com.tungns.form.Image.imageFormCreating;
 
 public interface IImagesService {
 
-	Page<Images> getAllImages(Pageable pageable, String search, String category,ImageFilterForm form);
+	Page<Images> getAllImages(Pageable pageable, String search,ImageFilterForm form);
 
 	public Images getImageById(int id);
 

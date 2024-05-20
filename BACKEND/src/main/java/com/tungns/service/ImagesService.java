@@ -29,9 +29,9 @@ public class ImagesService implements IImagesService {
 	private ModelMapper model;
 	
 	@Override
-	public Page<Images> getAllImages(Pageable pageable, String search, String category,ImageFilterForm form) {
+	public Page<Images> getAllImages(Pageable pageable, String search,ImageFilterForm form) {
 		
-		Specification<Images> where = ImageSpecification.buildImageWhere(search, category,form);
+		Specification<Images> where = ImageSpecification.buildImageWhere(search,form);
 		return imageRepository.findAll(where, pageable);
 	}
 

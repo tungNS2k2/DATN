@@ -20,7 +20,7 @@ const WithLoading = (WrappedComponent) => {
                     {this.state.isLoading && 
                         <div className='loading-content'>
                             <div className='loading-main'>
-                                <img src='img/loading.gif' alt='Loading' />
+                                <img src='img/giphy.gif' alt='Loading' />
                                 <h4>Loading...</h4>
                             </div>
                         </div>

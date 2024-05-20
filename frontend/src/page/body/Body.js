@@ -6,10 +6,11 @@ const HomeContent = styled.div`
     .content{
         border-left: 1px solid black;
         border-right: 1px solid black;
-        min-height: 100vh;
-        width; 100%;
+        border-bottom: 1px solid black;
+        min-height: 82.5vh;
+        // width: 100%;
         margin: 0 6.25rem;
-        padding: 1rem 2.8rem;
+        padding: 0 0;
        
         
     }

@@ -5,7 +5,7 @@ import Body from "../../page/body/Body";
 import CatPage from "../../page/body/CatPage";
 import ContentHome from "../../page/body/ContentHome";
 import DogPage from "../../page/body/DogPage";
-import Signin from "../../page/header/Signin";
+import Signin from "../../page/Signin/Signin";
 import WithLoading from "../../custom/HOC/withloading/WithLoading";
 import Signup from "../../page/signup/Signup";
 import Generated from "../../page/body/generated/generated";
@@ -15,7 +15,7 @@ const signinWithLoading = WithLoading(Signin);
 const signupWithLoading = WithLoading(Signup);
 
 const dogWithLoading = WithLoading(DogPage);
-const catdWithLoading = WithLoading(CatPage);
+const catWithLoading = WithLoading(CatPage);
 const moreWithLoading = WithLoading(More);
 const generatedWithLoading = WithLoading(Generated);
 
@@ -26,7 +26,7 @@ const  publicRouters = [
         childRoutes: [
             {path: '/Home', component: ContentHome},
             {path: '', component: ContentHome},
-            {path: '/cat', component: catdWithLoading},
+            {path: '/cat', component: catWithLoading},
             {path: '/dog', component: dogWithLoading},
             {path: '/more', component: moreWithLoading},
             {path: '/generated', component: generatedWithLoading},

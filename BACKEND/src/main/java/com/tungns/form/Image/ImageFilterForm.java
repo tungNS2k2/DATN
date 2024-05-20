@@ -7,4 +7,6 @@ public class ImageFilterForm {
 	private String createAt;
 	
 	private String category;
+	
+	private int accountId;
 }

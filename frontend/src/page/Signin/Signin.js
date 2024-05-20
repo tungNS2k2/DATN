@@ -15,12 +15,12 @@ import userAction from "../../redux/actions/userActions";
 
 import { useEffect } from 'react';
 const SigninContainer = styled.div`
-        max-width: 400px;
+        max-width: 333px;
         margin: auto;
         margin-top: 5rem;
 
         .signin-header{
-                
+                margin-bottom: 1.8rem;
         }
 
 

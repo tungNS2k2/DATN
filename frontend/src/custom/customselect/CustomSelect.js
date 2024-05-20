@@ -21,7 +21,7 @@ const Select = styled.select`
 
 const CustomSelect = ({ label, options, value, onChange, name, title }) => {
   return (
-    <SelectContainer>
+    <SelectContainer className = "custom_select">
       {/* {label && <Label htmlFor={name}>{label}</Label>} */}
       <Select id={name} name={name} value={value} onChange={onChange}>
         <option value="" disabled>{title}</option>
