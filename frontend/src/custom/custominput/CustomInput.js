@@ -6,6 +6,7 @@ const CustomInput = (props) => {
     const [inputFocus, setInputFocus] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
     const [value, setValue] = useState('');
+    const isEditable = props.editable === undefined ? true : props.editable;
 
     const _onFoucs = () => {
         setInputFocus(true)
@@ -34,7 +35,7 @@ const CustomInput = (props) => {
             setIsEmpty(false)
         else setIsEmpty(true)
     },[props.value])
-
+    const customStyles = props.styles || {}; 
     return (
         <div className='formcontrol-input'>
             <label
@@ -43,6 +44,7 @@ const CustomInput = (props) => {
                 {props.label}
             </label>
             <input
+                style={customStyles}
                 className={inputFocus ? 'active' : (!isEmpty ?'not-empty' : '')}
                 type={props.type}
                 onFocus={_onFoucs}
@@ -50,6 +52,7 @@ const CustomInput = (props) => {
                 value={value || ''}
                 name={props.name}
                 onChange={_onChange}
+                readOnly={!isEditable}
             />
             <fieldset className={inputFocus ? 'active' : (!isEmpty ?'not-empty' : '')}>
                 <legend>{props.label}</legend>

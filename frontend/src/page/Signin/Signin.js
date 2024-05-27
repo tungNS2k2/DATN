@@ -97,6 +97,7 @@ const SigninContainer = styled.div`
 
 
 const Signin = (props) =>{
+        // localStorage.clear();
         const formik = useFormik({
                 initialValues: {
                         username: '',
@@ -168,14 +169,7 @@ const Signin = (props) =>{
                                 }                   
                         </FormGroup>
                         
-                        <FormGroup>
-                                <div className='remember-me'>
-                                <CustomCheckBox
-                                        label='Remember me'
-                                        fontSize='24px'
-                                />
-                                </div>
-                        </FormGroup>
+                       
 
 
                         <FormGroup>
@@ -201,6 +195,8 @@ const Signin = (props) =>{
                                 <Link to ='/'> Your website</Link>&nbsp; 2023
                         </p>
                 </form>
+
+                
         </SigninContainer>
         )
 }

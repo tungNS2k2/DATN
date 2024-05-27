@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+    
 import com.tungns.dto.AccountDTO;
 import com.tungns.entity.Accounts;
 import com.tungns.filter.AccountFilterForm;
@@ -58,7 +59,7 @@ public class AccountController {
 	public AccountDTO getAccountByUser(@PathVariable(name = "username") String username) {
 		Accounts ac = service.getAccountByUsername(username);
 		
-		System.out.println(ac);
+//		System.out.println(ac);
 		
 		AccountDTO userIF = model.map(ac, AccountDTO.class);
 		return userIF;
@@ -68,7 +69,7 @@ public class AccountController {
 	@GetMapping("/{id}")
 	public AccountDTO getAccountByID(@PathVariable(name ="id") int id) {
 		Accounts acc = service.getAccountByID(id);
-		System.out.println(acc);
+//		System.out.println(acc);
 		AccountDTO userIF = model.map(acc, AccountDTO.class);
 		
 		return userIF;
@@ -85,19 +86,24 @@ public class AccountController {
 	}
 	
 
-	
+	       
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateByID(@RequestBody @Valid AccountFormCreating form, @PathVariable(name = "id") int id) {
-		form.setId(id);
-		service.updateAccount(form);
-		return new ResponseEntity<>("Update successfully", HttpStatus.OK);
+	public ResponseEntity<?> updateUser(@RequestBody AccountFormCreating form, @PathVariable(name = "id") Integer id) {
+		service.updateAccount(id, form);
+		return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "update/{id}")
+	public ResponseEntity<?> updateUserFullInfo(@RequestBody AccountFormCreating form, @PathVariable(name = "id") Integer id) {
+		service.updateAccountForAdmin(id, form);
+		return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/delete/{id}")
 	public ResponseEntity<?> deleteAccountByID(@PathVariable(name ="id") int id){
 		service.deleteAccount(id);
 		return new ResponseEntity<>("oke",HttpStatus.OK);
-	}
+	}  
 	
 	@PostMapping()
 	public ResponseEntity<?> createAccount(@RequestBody AccountFormCreating form) {
@@ -126,15 +132,24 @@ public class AccountController {
 	
 	@PostMapping(value = "/reset-password")
 	public ResponseEntity<?> resetPassword(@RequestParam(name = "username") String username){
-		Accounts acc = service.getAccountByUsername(username);
 		
-		BCryptPasswordEncoder pEndcoder = new BCryptPasswordEncoder();
-		String encryptPassword = pEndcoder.encode("123abc");
+		try {
+			Accounts acc = service.getAccountByUsername(username);
 		
-		acc.setPassword(encryptPassword);
-		service.resetPassword(acc);
-		return new ResponseEntity<>("Reset password successfully!", HttpStatus.OK);
+			
+			BCryptPasswordEncoder pEndcoder = new BCryptPasswordEncoder();
+			String encryptPassword = pEndcoder.encode("123abc");
+			
+			acc.setPassword(encryptPassword);
+			service.resetPassword(acc);
+			return new ResponseEntity<>("Reset password successfully!", HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>("username not exist!", HttpStatus.BAD_REQUEST);
+		}
 	}
+	
+	
 	
 	
 		

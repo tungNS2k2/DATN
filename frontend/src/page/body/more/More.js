@@ -10,16 +10,22 @@ const More_Style = styled.div`
 
 
 .product-home-pages {
+    position: fixed;
+    bottom: 20px;
+    text-align: center;
     display: flex;
     justify-content: center;
     padding: 0px 50px;
     padding-top: 40px;
+    right: 0px;
+    left: 0px;
   }
   .product-home-page-btn {
+    align-item: center;
     padding: 5px 10px;
     margin: 0 5px;
-    .product-home:hover {
-      background-color: black !important;
+    &.active {
+      background-color: orange !important;
       color: white !important;
     }
   }
@@ -49,38 +55,41 @@ const More = (props) =>{
             {/* <CustomDisplayGeneratedImage generatedImageUrls={catUrls} /> */}
     
     
-        <div className="product-home-pages">
+            <div className="product-home-pages">
         <button
-        onClick={() => setPage(page == 1 ? page : page - 1)}
-        className="white-btn product-home-page-btn"
+          onClick={() => setPage(page === 1 ? page : page - 1)}
+          className="white-btn product-home-page-btn"
         >
-        {'<'}
+          {"<"}
         </button>
         {Array.from({ length: 7 }).map((_, index) => {
-        const pageNumber = index - 3 + page;
-        if (pageNumber > 0 && pageNumber <= total) {
+          const pageNumber = index - 3 + page;
+          if (pageNumber > 0 && pageNumber <= total) {
             return pageNumber === page ? (
-            <button className="black-btn product-home-page-btn" key={index}>
+              <button
+                className="black-btn product-home-page-btn active"
+                key={index}
+              >
                 {pageNumber}
-            </button>
+              </button>
             ) : (
-            <button
+              <button
                 onClick={() => setPage(pageNumber)}
                 className="white-btn product-home-page-btn"
                 key={index}
-            >
+              >
                 {pageNumber}
-            </button>
+              </button>
             );
-        }
-        return null;
-        })}
-        <button
-        onClick={() => setPage(page == total ? page : page + 1)}
-        className="white-btn product-home-page-btn"
-        >
-        {'>'}
-        </button>
+          }
+          return null;
+         })}
+            <button
+            onClick={() => setPage(page === total ? page : page + 1)}
+            className="white-btn product-home-page-btn"
+            >
+            {">"}
+            </button>
         </div>
         </More_Style>
     

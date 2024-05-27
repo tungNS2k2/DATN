@@ -8,7 +8,7 @@ const DisplayImg = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-
+    min-height: 80vh;
     a {
         margin: 1rem 2.4rem 2rem 0;
         width: 20%;

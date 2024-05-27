@@ -49,7 +49,7 @@ public class FileController {
     @Value("${cloudinary.api_secret}")
     private String apiSecret;
 
-	@PostMapping(value = "/image")
+    @PostMapping(value = "/image")
 	public ResponseEntity<?> upLoadImage(@RequestParam(name = "image") MultipartFile image) throws IOException {
 
 		if (!new FileManager().isTypeFileImage(image)) {

@@ -10,6 +10,9 @@ import CustomDisplayGeneratedImage from '../../../custom/CustomDisplayImg/Custom
 import imagesActions from '../../../redux/actions/imagesAction';
 
 const Generated_Style = styled.div`
+
+  // border-left: 0.8px solid black;
+  // border-right: 0.8px solid black;
   position: relative;
   top: 0;
   right: 0;
@@ -18,10 +21,11 @@ const Generated_Style = styled.div`
   }
 
   .form-nav {
+    background-color: #fff;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    border-bottom: 2px solid #ccc; /* Thêm đường viền dưới form */
+    border-bottom: 1px solid #ff0000; /* Thêm đường viền dưới form */
     padding-bottom: 10px; /* Khoảng cách giữa nội dung form và đường viền */
     margin-bottom: 20px; /* Khoảng cách giữa form và các phần tử bên dưới */
     width: 100%; /* Đảm bảo form chiếm toàn bộ chiều rộng của thành phần cha */
@@ -56,9 +60,7 @@ const Generated_Style = styled.div`
 
       .err-message{
         text-align: center;
-        position: absolute;
-        top: 58%;
-        left: 47.6%;
+        margin-top: 24px;
 
       }
     }
@@ -111,7 +113,7 @@ const Generated = (props) => {
       n: Yup.number()
         .integer('Must be an integer')
         .min(1, 'Minimum 1 image')
-        .max(10, 'Maximum 10 images')
+        .max(12, 'Maximum 12 images')
         .required('Required!')
     }),
     onSubmit: values => {
@@ -189,13 +191,13 @@ const Generated = (props) => {
   ];
 
   const options2 = [
-    { value: 'dog', label: 'DOG', pair: [131, 151], folder: 'DOG' },
-    { value: 'cat', label: 'CAT', pair: [281, 13], folder: 'CAT' },
-    { value: 'more', label: 'MORE', pair: [5, 6], folder: 'OTHER' }
+    { value: 'dog', label: 'DOG', pair: [151, 131], folder: 'DOG' },
+    { value: 'cat', label: 'CAT', pair: [281, 14], folder: 'CAT' },
+    { value: 'more', label: 'MORE', pair: [286, 112], folder: 'OTHER' }
   ];
 
   return (
-    <Generated_Style>
+    <Generated_Style className="generated">
       <form className="form-nav" onSubmit={formik.handleSubmit}>
         <div className="div-custom">
           <CustomSelect

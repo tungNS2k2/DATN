@@ -4,10 +4,12 @@ import { Outlet } from "react-router-dom";
 
 const HomeContent = styled.div`
     .content{
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        border-bottom: 1px solid black;
-        min-height: 82.5vh;
+        background-color: #cccccc1a;
+        height: fit-content;
+        border-left: 0.9px solid black;
+        border-right: 0.9px solid black;
+        // border-bottom: 1px solid black;
+        min-height:  calc(100vh - 88px);
         // width: 100%;
         margin: 0 6.25rem;
         padding: 0 0;

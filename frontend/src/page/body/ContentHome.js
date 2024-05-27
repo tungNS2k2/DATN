@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import CustomDisplayImg from "../../custom/CustomDisplayImg/CustomDisplayImg";
-import imgUrls from "../../data/imgUrls/imgUrls";
 const ContentHomeStyle = styled.div`
 
    .container{
         img{
-            width: 80vh;
+            width: 50%;
         height: auto;
         margin: auto;
         display: block;
@@ -18,7 +16,7 @@ const ContentHomeStyle = styled.div`
 
 const ContentHome = () =>{
     return(
-        <ContentHomeStyle>
+        <ContentHomeStyle className="content-homePage">
             <div className="container">
                 <img src ="./img/logo/hello2.gif"/>
                 

@@ -16,7 +16,7 @@ public class FileService implements IFileService{
 	
 	//private String linkFolder = "E:\\VTI\\Rocket20\\Reactjs\\Buoi11\\public\\upload";
 	
-	private String linkFolder = "/Users/poppy/Rocket_27/ReactJs/finalexamreact/public/upload";
+	private String linkFolder = "/Users/poppy/Rocket_27/GIT/DATN/frontend/public/img/upload";
 
 	@Override
 	public String upLoadImage(MultipartFile image) throws IOException {

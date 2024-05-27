@@ -1,5 +1,5 @@
 package com.tungns.controller;
-
+import org.springframework.http.HttpHeaders;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,8 +55,12 @@ public class AuthController {
 	@Autowired
 	private CustomAccountsDetailsService customUserDetailsService;
 	@GetMapping("/active_account")
-	public void activeAccount(@RequestParam(name = "id") int id) {
+	public ResponseEntity<Void> activeAccount(@RequestParam(name = "id") int id) {
 		accService.activeAccount(id);
+		 // Chuyển hướng đến http://localhost:3000/signin
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "http://localhost:3000/signin");
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
 	}
 	
 	@PostMapping("/signin")
@@ -73,9 +77,10 @@ public class AuthController {
         final UserDetails userDetails = customUserDetailsService
                 .loadUserByUsername(signinDTO.getUsername());
         final int id = accService.getAccountByUsername(signinDTO.getUsername()).getId();
+        final String status = accService.getAccountByUsername(signinDTO.getUsername()).getStatus().toString();
         final String jwt = jwtUtil.generateToken(userDetails);
  
-        JwtResponDTO Response = new JwtResponDTO(jwt, userDetails, userDetails.getAuthorities().toString(), id);
+        JwtResponDTO Response = new JwtResponDTO(jwt, userDetails, userDetails.getAuthorities().toString(), id, status);
         
         return ResponseEntity.ok(Response);
     }

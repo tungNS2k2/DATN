@@ -48,8 +48,6 @@ public class Accounts implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	private AccountStatus status;
 	
-	@OneToMany(mappedBy = "account")
-	private List<GeneratedImages> generatedImages;
 	
 	@OneToMany(mappedBy = "account")
 	private List<Images> images;

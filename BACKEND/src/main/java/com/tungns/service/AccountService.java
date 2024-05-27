@@ -10,16 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+
 
 import com.tungns.dto.AccountDTO;
 import com.tungns.entity.Accounts;
 import com.tungns.event.mail.OnSendRegistrationUserConfirmViaEmailEvent;
 import com.tungns.event.mail.OnSendResetPassword;
 import com.tungns.event.mail.OnUpdatePasswordEvent;
-import com.tungns.event.mail.SendRegistrationUserConfirmViaEmailListener;
-import com.tungns.event.mail.UpdatePasswordListener;
 import com.tungns.filter.AccountFilterForm;
 import com.tungns.form.Account.AccountFormCreating;
 import com.tungns.form.Account.UpdateAccountForm;
@@ -64,13 +64,38 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public void updateAccount(AccountFormCreating form) {
+	@Transactional
+	public void updateAccount(int id, AccountFormCreating form) {
+		Accounts accFr = model.map(form, Accounts.class);
+
+		Accounts accEntity = accountReponsitory.findById(id).get();
+		if(form.getPassword() != null) {
+			accEntity.setPassword(form.getPassword());
+		}
+		accEntity.setUsername(accFr.getUsername());
+		accEntity.setEmail(accFr.getEmail());
+		accEntity.setAvatarUrl(accFr.getAvatarUrl());
 		
-		Accounts acc = model.map(form, Accounts.class);
-		
-		accountReponsitory.save(acc);
-		
+		accountReponsitory.save(accEntity);
 	}
+	
+	@Override
+	@Transactional
+	public void updateAccountForAdmin(int id, AccountFormCreating form) {
+		Accounts accFr = model.map(form, Accounts.class);
+
+		Accounts accEntity = accountReponsitory.findById(id).get();
+		if(form.getPassword() != null) {
+			accEntity.setPassword(form.getPassword());
+		}
+		accEntity.setUsername(accFr.getUsername());
+		accEntity.setEmail(accFr.getEmail());
+		accEntity.setAvatarUrl(accFr.getAvatarUrl());
+		accEntity.setRole(accFr.getRole());
+		accEntity.setStatus(accFr.getStatus());		
+		accountReponsitory.save(accEntity);
+	}
+
 
 	@Override
 	public void deleteAccount(int id) {
@@ -81,6 +106,8 @@ public class AccountService implements IAccountService {
 	@Override
 	public void addNewAccount(AccountFormCreating form) {
 		Accounts acc = model.map(form, Accounts.class);
+		BCryptPasswordEncoder pEndcoder = new BCryptPasswordEncoder();
+		acc.setPassword(pEndcoder.encode(acc.getPassword()));
 		
 		Accounts accNew = accountReponsitory.save(acc);
 		

@@ -48,12 +48,14 @@ public class MailService implements IMailService {
 		message.setSubject(subject);
 		message.setText(content);
 		
+		
+		
 		mailSender.send(message);
 	}
 
 	@Override
 	public void sendResetPasswordComfirm(int id, String email) {
-		String confimationUrl = "http://localhost:8888/api/v1/auth/active_account?id=\" + id";
+		String confimationUrl = "http://localhost:8888/api/v1/auth/active_account?id=" + id;
 		
 		String subject = "Xác nhận reset mật khẩu!";
 		String content = "Bạn đã đưa mật khẩu về mặc định thành 123abc. hãy click để kích hoạt lại tài khoản. \n"

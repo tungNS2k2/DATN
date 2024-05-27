@@ -21,7 +21,7 @@ public interface IAccountService {
 
 	Page<Accounts> getAllAccounts(Pageable pageable, String search, AccountFilterForm form);
 
-	public void updateAccount(AccountFormCreating form);
+	public void updateAccount(int id, AccountFormCreating form);
 
 	public void deleteAccount(int id);
 
@@ -38,6 +38,8 @@ public interface IAccountService {
 	public void createAccount(Accounts acc);
 
 	public void resetPassword(Accounts acc);
+
+	void updateAccountForAdmin(int id, AccountFormCreating form);
 	
 
 
