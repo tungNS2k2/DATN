@@ -8,7 +8,9 @@ import CustomInput from '../../../custom/custominput/CustomInput';
 import imageActions from '../../../redux/actions/generatedImageActions';
 import CustomDisplayGeneratedImage from '../../../custom/CustomDisplayImg/CustomDisplayGeneratedImage';
 import imagesActions from '../../../redux/actions/imagesAction';
+import { Cloudinary } from "cloudinary-core"; // Thêm Cloudinary SDK
 
+const cloudinary = new Cloudinary({ cloud_name: "dfv44c41l", secure: true });
 const Generated_Style = styled.div`
 
   // border-left: 0.8px solid black;
@@ -149,18 +151,30 @@ const Generated = (props) => {
 
   useEffect(() => {
     if (selectedPublicIds.length > 0) {
-      const newDataList = selectedPublicIds.map(publicId => {
-        const image = props.generatedImageUrls.find(img => img.publicId === publicId);
-        return {
-          imageUrl: image ? image.url : "",
-          nameImage: `Image_${Date.now()}`,
-          category: formik.values.folder, // Sử dụng tên thư mục thực tế
-          accountId: accountId
-        };
-      });
-      setFormDataList(newDataList);
+        const newDataList = selectedPublicIds.map(publicId => {
+            const image = props.generatedImageUrls.find(img => img.publicId === publicId);
+            const newFolder = formik.values.folder; // Thư mục mới
+            let imageUrl = "";
+
+            if (image) {
+                // Xử lý để loại bỏ phần thư mục cũ khỏi publicId
+                const oldFolder = "samples/"; // Thư mục cũ mà bạn muốn loại bỏ
+                const cleanedPublicId = image.publicId.replace(oldFolder, "");
+
+                // Tạo URL mới dựa trên publicId đã xử lý và thư mục mới
+                imageUrl = cloudinary.url(`${newFolder}/${cleanedPublicId}`);
+            }
+
+            return {
+                imageUrl: imageUrl,
+                nameImage: `Image_${Date.now()}`,
+                category: newFolder, // Sử dụng tên thư mục thực tế
+                accountId: accountId
+            };
+        });
+        setFormDataList(newDataList);
     }
-  }, [selectedPublicIds, props.generatedImageUrls, accountId, formik.values.folder]);
+}, [selectedPublicIds, props.generatedImageUrls, accountId, formik.values.folder]);
 
   const handleCreateImages = () => {
     formDataList.forEach(item => {
