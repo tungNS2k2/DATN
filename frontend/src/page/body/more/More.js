@@ -9,26 +9,46 @@ import { useEffect, useState } from "react";
 const More_Style = styled.div`
 
 
-.product-home-pages {
-    position: fixed;
-    bottom: 20px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    padding: 0px 50px;
-    padding-top: 40px;
-    right: 0px;
-    left: 0px;
-  }
-  .product-home-page-btn {
-    align-item: center;
-    padding: 5px 10px;
-    margin: 0 5px;
-    &.active {
-      background-color: orange !important;
-      color: white !important;
-    }
-  }
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.product-home-pages{
+  text-align: center;
+}
+.product-home-page-btn {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+}
+
+.product-home-page-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.product-home-page-btn.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.black-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+}
+
+.white-btn {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+}
 `
 const More = (props) =>{
 

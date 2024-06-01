@@ -5,37 +5,30 @@ import ai.djl.ModelException;
 import ai.djl.inference.Predictor;
 import ai.djl.modality.cv.Image;
 import ai.djl.repository.zoo.Criteria;
-import ai.djl.repository.zoo.ModelNotFoundException;
+
 import ai.djl.repository.zoo.ZooModel;
 import ai.djl.training.util.ProgressBar;
 import ai.djl.translate.TranslateException;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
 import java.util.Random;
 
-import javax.imageio.ImageIO;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.stereotype.Service;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-import com.tungns.controller.CloundinaryController;
+
 
 @Service
 public class BigGANService implements IBigGANService {
 	Random random = new Random();
 	
-	
-	
-	
 	@Override
-    public Image[] generateImages(int n, int size, int title_start, int title_end) throws IOException, ModelException, TranslateException {
+    public Image[] generateImages(int n, int size, int title_start, int title_end) 
+    		throws IOException, ModelException, TranslateException {
         Criteria<int[], Image[]> criteria = Criteria.builder()
                 .optApplication(Application.CV.IMAGE_GENERATION)
                 .setTypes(int[].class, Image[].class)
