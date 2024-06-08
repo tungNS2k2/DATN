@@ -1,5 +1,5 @@
-// import { FastField } from 'formik';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import './CustomInput.css';
 
 const CustomInput = (props) => {
@@ -8,60 +8,56 @@ const CustomInput = (props) => {
     const [value, setValue] = useState('');
     const isEditable = props.editable === undefined ? true : props.editable;
 
-    const _onFoucs = () => {
-        setInputFocus(true)
-    }
+    // Use a default value if state.generatedImage or keywords do not exist
+    
 
-    const _onblur = () => {
-        setInputFocus(false)
-        if (!value) {
-            setIsEmpty(true)
-        }else setIsEmpty(false)
-    }
+    const handleFocus = () => {
+        setInputFocus(true);
+    };
 
-    const _onChange = e => {
-        // console.log(e)
-        // console.log(e.target)
-        // console.log(e.target.value)
+    const handleBlur = () => {
+        setInputFocus(false);
+        setIsEmpty(!value);
+    };
+
+    const handleChange = (e) => {
         setValue(e.target.value);
+        props.onChangeInput(e);
+        
+    };
 
-         props.onChangeInput(e);
-        // props.onChangeInput(e.target.value);
-    }
-// component didUpdate
-    useEffect(()=>{
-        setValue(props.value)
-        if(props.value) 
-            setIsEmpty(false)
-        else setIsEmpty(true)
-    },[props.value])
-    const customStyles = props.styles || {}; 
+    useEffect(() => {
+        setValue(props.value || '');
+        setIsEmpty(!props.value);
+    }, [props.value]);
+
+    const customStyles = props.styles || {};
+
     return (
         <div className='formcontrol-input'>
-            <label
-                className={inputFocus ? 'active' : (!isEmpty ?'not-empty' : '')}
-            >
+            <label className={inputFocus ? 'active' : (!isEmpty ? 'not-empty' : '')}>
                 {props.label}
             </label>
             <input
                 style={customStyles}
-                className={inputFocus ? 'active' : (!isEmpty ?'not-empty' : '')}
+                className={inputFocus ? 'active' : (!isEmpty ? 'not-empty' : '')}
                 type={props.type}
-                onFocus={_onFoucs}
-                onBlur={_onblur}
-                value={value || ''}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                value={value}
                 name={props.name}
-                onChange={_onChange}
+                onChange={handleChange}
                 readOnly={!isEditable}
+                autoComplete="off"
             />
-            <fieldset className={inputFocus ? 'active' : (!isEmpty ?'not-empty' : '')}>
+           
+            <fieldset className={inputFocus ? 'active' : (!isEmpty ? 'not-empty' : '')}>
                 <legend>{props.label}</legend>
             </fieldset>
         </div>
-    )
-}
+    );
+};
+
+
 
 export default CustomInput;
-
-
-

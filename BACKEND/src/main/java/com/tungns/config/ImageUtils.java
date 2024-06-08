@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
+
 import javax.imageio.ImageIO;
 
 import ai.djl.modality.cv.Image;
@@ -27,4 +29,5 @@ public class ImageUtils {
         g2d.dispose();
         return bufferedImage;
     }
+    
 }

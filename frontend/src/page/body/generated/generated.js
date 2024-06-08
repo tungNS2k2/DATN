@@ -63,6 +63,7 @@ const Generated_Style = styled.div`
       .err-message{
         text-align: center;
         margin-top: 24px;
+        max-width: 300px;
 
       }
     }

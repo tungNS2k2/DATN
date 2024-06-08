@@ -25,6 +25,11 @@ const menuHeaderLinks =[
         text: 'Generated',
         link: '/generated',
         icon: 'fa-solid fa-plus'
+    },
+    {
+        text: 'Create by Text',
+        link: '/createtext',
+        icon: 'fa-solid fa-plus'
     }
 ]
 export default menuHeaderLinks;

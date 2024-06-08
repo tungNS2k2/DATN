@@ -95,11 +95,81 @@ const resetGeneratedImages = () => ({
   type: actionTypes.RESET_GENERATED_IMAGES,
 });
 
+const resetState = () => ({
+  type: actionTypes.RESET_STATE_IMAGE,
+});
+
+
+const XLNNTN = (inputText) => async (dispatch) =>{
+  dispatch({
+    type: actionTypes.GET_LABEL_INDEX_REQUEST,
+    payload: null
+  })
+
+  try{
+    const response = await axiosInstance.post("api/predict",{
+      input_text: inputText
+    }
+    
+  )
+
+    dispatch({
+      type: actionTypes.GET_LABEL_INDEX_SUCCESS,
+      payload: response.data
+    })
+    console.log(response.data)
+  }
+  catch(err){
+    dispatch({
+      type: actionTypes.GET_LABEL_INDEX_FAIL,
+      payload: 'err'
+    })
+  }
+}
+
+const CreateImageByText = (ntype) => async(dispatch) =>{
+  dispatch({
+    type: actionTypes.CREATE_IMAGE_BY_TEXT_REQUEST,
+    payload: null
+  })
+  try{
+    const response = await axiosInstance.post("api/generate?ntype=" + ntype)
+    dispatch({
+      type: actionTypes.CREATE_IMAGE_BY_TEXT_SUCCESS,
+      payload: response.data
+    })
+  }catch(err){
+    dispatch({
+      type: actionTypes.CREATE_IMAGE_BY_TEXT_FAIL,
+      payload: "err"
+    })
+  }
+}
+
+
+const loadKeywords = () => async (dispatch) => {
+  dispatch({ type: actionTypes.LOAD_KEYWORDS_REQUEST });
+
+  try {
+    
+    const response = await axios.get('/api/data');
+    const keywords = response.data.split('\n'); // Assuming the file is a simple text file with one keyword per line
+    dispatch({ type: actionTypes.LOAD_KEYWORDS_SUCCESS, payload: keywords });
+  } catch (error) {
+    dispatch({ type: actionTypes.LOAD_KEYWORDS_FAILURE, payload: error.message });
+  }
+};
+
 const imageActions = {
   generateImage,
   deleteGeneratedImageInFolder,
   moveImagesToFolder,
   resetGeneratedImages,
+  XLNNTN,
+  CreateImageByText,
+  resetState,
+  loadKeywords
+  
 };
 
 export default imageActions;

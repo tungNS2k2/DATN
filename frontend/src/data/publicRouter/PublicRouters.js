@@ -13,6 +13,7 @@ import More from "../../page/body/more/More";
 import StyledUserInfo from "../../page/body/userinfor/UserInFor";
 import ChangePassword from "../../page/changePassword.js/ChangePassword";
 import Admin from "../../page/admin/Admin";
+import CreateText from "../../page/body/createtext/CreateText";
 
 const signinWithLoading = WithLoading(Signin);
 const signupWithLoading = WithLoading(Signup);
@@ -24,6 +25,7 @@ const generatedWithLoading = WithLoading(Generated);
 const UserInForhowLoading =WithLoading(StyledUserInfo) 
 const changePasswordLoading =WithLoading(ChangePassword) 
 const adminLoading =WithLoading(Admin) 
+const createTextLoading = WithLoading(CreateText)
 
 
 
@@ -79,6 +81,7 @@ const  adminRouters = [
             {path: '/generated', component: generatedWithLoading},
             {path: '/infor', component: UserInForhowLoading},
             {path: '/change-password', component: changePasswordLoading},
+            {path: '/createtext', component: createTextLoading},
             {
                 path: '/admin',
                 component: adminLoading

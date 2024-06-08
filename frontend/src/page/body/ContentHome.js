@@ -54,9 +54,9 @@ const navigate = useNavigate();
       <div className="container">
         <img src="./img/logo/hello2.gif" alt="Hello" />
         <div className="overlay" onClick={handleClick}>
-        <i class="fa-solid fa-paw"></i>
+        <i className="fa-solid fa-paw"></i>
           Welcome to the website, create images now
-          <i class="fa-solid fa-paw"></i>
+          <i className="fa-solid fa-paw"></i>
         </div>
       </div>
     </ContentHomeStyle>
