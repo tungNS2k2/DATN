@@ -3,7 +3,7 @@ import torch
 from pytorch_pretrained_biggan import BigGAN, truncated_noise_sample
 # Load pretrained BigGAN model
 from PIL import Image
-model = BigGAN.from_pretrained('biggan-deep-256')
+model = BigGAN.from_pretrained('biggan-deep-512')
 
 def generate_images(ntype):
     truncation = 1.0
@@ -26,6 +26,6 @@ def generate_images(ntype):
 
     img = ((output[0] + 1.) / 2. * 255).astype('uint8')  # Convert image from [-1, 1] to [0, 255] and format as uint8
     img = Image.fromarray(img)
-    img = img.resize((256, 256), Image.LANCZOS)
+    img = img.resize((512, 512), Image.LANCZOS)
 
     return img
